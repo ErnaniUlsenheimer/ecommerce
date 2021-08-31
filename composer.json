@@ -1,19 +1,19 @@
 {
-    "name": "ErnaniUlsenheimer/ecommerce",
+    "name": "ernaniulsenheimer/ecommerce",
     "authors": [
         {
-            "name": "Ernani",
-            "email": "ernaniu@gmail.com"
+            "name":"Ernani",
+            "email":"ernaniu@gmail.com"
         }
     ],
     "require": {
-    	"phpmailer/phpmailer":"5.2.22",
-    	"slim/slim":"2.0",
-    	"rain/raintpl":"3.0.0"
+        "phpmailer/phpmailer":"5.2.22",
+        "slim/slim":"2.0",
+        "rain/raintpl":"3.0.0"
     },
     "autoload": {
         "psr-4": {
-            "Hcode\\": "vendor\\ErnaniUlsenheimer\\php-classes\\src"
+            "Hcode\\":"vendor/hcodebr/php-classes/src"
         }
     }
 }

@@ -4,19 +4,19 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd4abc31e1d6670b2d4de8222558da0be
+class ComposerStaticInitbdf4b99fb986a262154e0340fc0fb586
 {
     public static $prefixLengthsPsr4 = array (
-        'E' => 
+        'H' => 
         array (
-            'Ernaniulsenheimer\\Ecommerce\\' => 28,
+            'Hcode\\' => 6,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Ernaniulsenheimer\\Ecommerce\\' => 
+        'Hcode\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src',
+            0 => __DIR__ . '/..' . '/hcodebr/php-classes/src',
         ),
     );
 
@@ -52,10 +52,10 @@ class ComposerStaticInitd4abc31e1d6670b2d4de8222558da0be
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd4abc31e1d6670b2d4de8222558da0be::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd4abc31e1d6670b2d4de8222558da0be::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitd4abc31e1d6670b2d4de8222558da0be::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitd4abc31e1d6670b2d4de8222558da0be::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitbdf4b99fb986a262154e0340fc0fb586::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitbdf4b99fb986a262154e0340fc0fb586::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitbdf4b99fb986a262154e0340fc0fb586::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitbdf4b99fb986a262154e0340fc0fb586::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -108,6 +108,8 @@ $app->post('/admin/users/create', function(){
     User::verifyLogin();
   //  var_dump($_POST);
     $user = new User();
+
+    $_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;
     $user->setData($_POST);
 
     //var_dump($user);

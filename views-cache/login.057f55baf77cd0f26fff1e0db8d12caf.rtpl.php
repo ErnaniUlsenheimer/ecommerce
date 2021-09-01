@@ -27,7 +27,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="/res/admin/AdminLTE-2.3.11/index2.html"><b>E-</b>Commerce</a>
+    <a href="/res/admin/AdminLTE-2.3.11/index2.html"><b>Percolore </b>License</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">

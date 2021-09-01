@@ -120,7 +120,7 @@ $app->post('/admin/users/create', function(){
 
 $app->post('/admin/users/:iduser', function($iduser){
     User::verifyLogin();
-
+//  var_dump($_POST);
     $user = new User();
 
     $_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;

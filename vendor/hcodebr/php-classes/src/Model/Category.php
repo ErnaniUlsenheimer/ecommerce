@@ -7,7 +7,8 @@ use \Hcode\Model;
 
 
 class Category extends Model {
-		protected $fields = [
+		
+	protected $fields = [
 		"idcategory", "descategory", "dtergister"
 	];
 

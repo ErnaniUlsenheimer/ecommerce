@@ -3,6 +3,7 @@
 use \Hcode\PageAdmin;
 use \Hcode\Model\User;
 use \Hcode\Model\Category;
+use \Hcode\Model\Product;
 
 
 $app->get("/admin/categories", function() {
@@ -72,6 +73,70 @@ $app->post('/admin/categories/:idcategory', function($idcategory) {
 
     header("Location: /admin/categories");
     exit;
+});
+
+
+
+
+$app->get('/admin/categories/:idcategory/products', function($idcategory) {
+    
+    User::verifyLogin();
+
+    $category = new Category();
+    $category->get((int)$idcategory);
+
+    $prodctsRelated = $category->getProducts(true);
+    $productsNotRelated = $category->getProducts(false);
+
+    $page = new PageAdmin();
+    $page->setTpl("categories-products", array(
+        "category"=>$category->getValues(),
+        "productsRelated"=>$prodctsRelated,
+        "productsNotRelated"=>$productsNotRelated    ));
+
+});
+
+
+$app->get('/admin/categories/:idcategory/products/:idproduct/add', function($idcategory, $idproduct) {
+     $category = new Category();
+
+     $category->get((int)$idcategory);
+
+     $prodct = new Product();
+     $prodct->get((int)$idproduct);
+
+     $category->addProduct($prodct);
+
+    $prodctsRelated = $category->getProducts(true);
+    $productsNotRelated = $category->getProducts(false);
+
+    $page = new PageAdmin();
+    $page->setTpl("categories-products", array(
+        "category"=>$category->getValues(),
+        "productsRelated"=>$prodctsRelated,
+        "productsNotRelated"=>$productsNotRelated    ));
+
+});
+
+$app->get('/admin/categories/:idcategory/products/:idproduct/remove', function($idcategory, $idproduct) {
+     $category = new Category();
+
+     $category->get((int)$idcategory);
+
+     $prodct = new Product();
+     $prodct->get((int)$idproduct);
+
+     $category->removeProduct($prodct);
+
+    $prodctsRelated = $category->getProducts(true);
+    $productsNotRelated = $category->getProducts(false);
+
+    $page = new PageAdmin();
+    $page->setTpl("categories-products", array(
+        "category"=>$category->getValues(),
+        "productsRelated"=>$prodctsRelated,
+        "productsNotRelated"=>$productsNotRelated    ));
+
 });
 
 

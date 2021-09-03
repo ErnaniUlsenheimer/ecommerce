@@ -6,11 +6,13 @@ use \Hcode\Model\Category;
 use \Hcode\Model\User;
 
 $app->get('/', function() {
-     
+    $products = Product::checkList(Product::listAll());
 
     $page = new Page();
 
-    $page->setTpl("index");  
+    $page->setTpl("index", array(
+        "products"=>$products
+    ));  
 
 });
 

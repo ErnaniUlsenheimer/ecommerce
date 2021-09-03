@@ -9,7 +9,7 @@ use \Hcode\Mailer;
 class Product extends Model {
 
 	protected $fields = [
-		"idproduct", "desproduct", "vlprice", "vlwidth", "vlheigth", "vllength", "vlweight", "desurl", "dtregister"
+		"idproduct", "desproduct", "vlprice", "vlwidth", "vlheigth", "vllength", "vlweight", "desurl", "dtregister", "desphoto"
 	];
 
 	public static function listAll()

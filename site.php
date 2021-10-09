@@ -9,6 +9,11 @@ use \Hcode\Model\Address;
 use \Hcode\Model\Order;
 use \Hcode\Model\OrderStatus;
 
+
+ //echo json_encode($address);
+    //var_dump($order);   
+    //exit;
+
 $app->get('/', function() {
     $products = Product::checkList(Product::listAll());
 
@@ -270,7 +275,66 @@ $app->post("/forgot/reset", function(){
 
 });
 
+$app->get("/profile", function(){
 
+    User::verifyLogin(false);
+
+    $user = User::getFromSession();
+
+    $page = new Page();
+
+    $page->setTpl("profile", [
+        'user'=>$user->getValues(),
+        'profileMsg'=>User::getSuccess(),
+        'profileError'=>User::getError()
+    ]);
+
+});
+
+$app->post("/profile", function(){
+
+    User::verifyLogin(false);
+
+    if (!isset($_POST['desperson']) || $_POST['desperson'] === '') {
+        User::setError("Preencha o seu nome.");
+        header('Location: /profile');
+        exit;
+    }
+
+    if (!isset($_POST['desemail']) || $_POST['desemail'] === '') {
+        User::setError("Preencha o seu e-mail.");
+        header('Location: /profile');
+        exit;
+    }
+
+    $user = User::getFromSession();
+
+    if ($_POST['desemail'] !== $user->getdesemail()) {
+
+        if (User::checkLoginExists($_POST['desemail']) === true) {
+
+            User::setError("Este endereço de e-mail já está cadastrado.");
+            header('Location: /profile');
+            exit;
+
+        }
+
+    }
+
+    $_POST['inadmin'] = $user->getinadmin();
+    $_POST['despassword'] = $user->getdespassword();
+    $_POST['deslogin'] = $_POST['desemail'];
+
+    $user->setData($_POST);
+
+    $user->update();
+
+    User::setSuccess("Dados alterados com sucesso!");
+
+    header('Location: /profile');
+    exit;
+
+});
 
 $app->get('/checkout', function() {
     User::verifyLogin(false);
@@ -363,23 +427,26 @@ $app->post("/checkout", function(){
     $_POST['idperson'] = $user->getidperson();
 
     $address->setData($_POST);
-
     $address->save();
+   
 
     $cart = Cart::getFromSession();
 
     $cart->getCalculateTotal();
 
+    
+    
     $order = new Order();
 
-    $order->setData([
+    $order->setData([               
         'idcart'=>$cart->getidcart(),
         'idaddress'=>$address->getidaddress(),
         'iduser'=>$user->getiduser(),
         'idstatus'=>OrderStatus::EM_ABERTO,
         'vltotal'=>$cart->getvltotal()
     ]);
-
+    
+    
     $order->save();
 
     switch ((int)$_POST['payment-method']) {
@@ -391,73 +458,20 @@ $app->post("/checkout", function(){
         case 2:
         header("Location: /order/".$order->getidorder()."/paypal");
         break;
+         
+        case 3:
+        header("Location: /order/".$order->getidorder());
+        break;
 
     }
 
     exit;
+    
+    
 
 });
 
-$app->get("/profile", function(){
 
-    User::verifyLogin(false);
-
-    $user = User::getFromSession();
-
-    $page = new Page();
-
-    $page->setTpl("profile", [
-        'user'=>$user->getValues(),
-        'profileMsg'=>User::getSuccess(),
-        'profileError'=>User::getError()
-    ]);
-
-});
-
-$app->post("/profile", function(){
-
-    User::verifyLogin(false);
-
-    if (!isset($_POST['desperson']) || $_POST['desperson'] === '') {
-        User::setError("Preencha o seu nome.");
-        header('Location: /profile');
-        exit;
-    }
-
-    if (!isset($_POST['desemail']) || $_POST['desemail'] === '') {
-        User::setError("Preencha o seu e-mail.");
-        header('Location: /profile');
-        exit;
-    }
-
-    $user = User::getFromSession();
-
-    if ($_POST['desemail'] !== $user->getdesemail()) {
-
-        if (User::checkLoginExists($_POST['desemail']) === true) {
-
-            User::setError("Este endereço de e-mail já está cadastrado.");
-            header('Location: /profile');
-            exit;
-
-        }
-
-    }
-
-    $_POST['inadmin'] = $user->getinadmin();
-    $_POST['despassword'] = $user->getdespassword();
-    $_POST['deslogin'] = $_POST['desemail'];
-
-    $user->setData($_POST);
-
-    $user->update();
-
-    User::setSuccess("Dados alterados com sucesso!");
-
-    header('Location: /profile');
-    exit;
-
-});
 
 $app->get("/order/:idorder", function($idorder){
 
@@ -539,6 +553,7 @@ $app->get("/boleto/:idorder", function($idorder){
     $dadosboleto["endereco"] = "Rua Ademar Saraiva Leão, 234 - Alvarenga, 09853-120";
     $dadosboleto["cidade_uf"] = "São Bernardo do Campo - SP";
     $dadosboleto["cedente"] = "HCODE TREINAMENTOS LTDA - ME";
+ 
 
     // NÃO ALTERAR!
     $path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "res" . DIRECTORY_SEPARATOR . "boletophp" . DIRECTORY_SEPARATOR . "include" . DIRECTORY_SEPARATOR;

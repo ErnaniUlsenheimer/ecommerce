@@ -1,4 +1,5 @@
 <?php 
+use \Hcode\Model\User;
 
 function formatPrice($vlprice)
 {

@@ -12,6 +12,9 @@ class User extends Model {
 
 	const SESSION = "User";
 
+	const ERROR = "UserError";
+	const ERROR_REGISTER = "UserErrorRegister";
+	const SUCCESS = "UserSucesss";
 	
 
 	protected $fields = [
@@ -125,12 +128,21 @@ class User extends Model {
 	public static function verifyLogin($inadmin = true)
 	{
 
-		if (User::checkLogin($inadmin)) {
+		if (!User::checkLogin($inadmin)) {
 			
-			header("Location: /admin/login");
+			if($inadmin)
+			{
+				header("Location: /admin/login");
+			}
+			else
+			{
+				header("Location: /login");
+			}
+			
 			exit;
 
 		}
+		
 
 	}
 
